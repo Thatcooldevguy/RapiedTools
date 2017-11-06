@@ -1,24 +1,14 @@
-class Pip:
-  def __init__(self, ofile: str = None, verbose: bool = False):
-    self.ofile = ofile
-    self.verbose = verbose
-    
-  def install(self, package):
-    pass
-  
-  def remove(self, package):
-    pass
-  
-  def show(self, package):
-    pass
-    
-def handle(args):
-  Pip_ins = Pip(ofile=args.ofile, verbose=args.verbose)
-  pass
+import subprocess
 
-def outer_func(func):
-  def inner_func():
-    return func()
-  if self.verbose:
-    self.logging.INFO('Func returned bla.')
-  return inner_func(func)
+class Pip:
+  @staticmethod   
+  def install(pkg):
+     subprocess.run(['pip', 'install', pkg], stdout=subprocess.PIPE)
+  
+  @staticmethod
+  def remove(pkg):
+     subprocess.run(['pip', 'uninstall', pkg], stdout=subprocess.PIPE)
+  
+  @staticmethod
+  def show(pkg):
+     subprocess.run(['pip', 'show', pkg], stdout=subprocess.PIPE)

@@ -1,8 +1,8 @@
 import sys
 import argparse
-from tools import pip
-from tools import apt
-from tools import git
+from tools.pip import Pip
+from tools.git import Git
+from tools.apt import Apt
 
 
 def main():
@@ -13,13 +13,13 @@ def main():
   
   tool_picker(args)
 
-def tool_picker(args):
+def tool_picker(args): 
     if args.tool == 'pip':
-      pip.handle(args)
+      getattr(Pip(), args.method)(args.pkg)
     elif args.tool == 'apt':
-      apt.handle(args)
+      getattr(Apt(), args.method)(args.pkg)
     elif args.tool == 'git':
-      git.handle(args)
+      getattr(Git(), args.method)(args.pkg)
     else:
       print('How did you manage this?!', args.tool)
       sys.exit(2)
@@ -48,13 +48,8 @@ def parse_prog_args():
   apt_parser.set_defaults(tool='apt')
   
   git_parser = tool_parser.add_parser('git')
-  git_parser.add_argument('-m', choices=['clone'], dest='method', required=True)
-  git_parser.add_argument('pkg')
+  git_parser.add_argument('-m', choices=['clone'], dest='method', required=True , help= 'clone a repo')  
   git_parser.set_defaults(tool='git')
-  
-  cli_arg_parser.add_argument('-v', action='store_true', dest='verbose')
-  cli_arg_parser.add_argument('-if', dest='ifile')
-  cli_arg_parser.add_argument('-of', dest='ofile')
   
   args = cli_arg_parser.parse_args()
   
@@ -63,6 +58,24 @@ def parse_prog_args():
     sys.exit(2)
   
   return args
+##help code ##
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##end help comment##
 
 if __name__ == '__main__':
   main()
